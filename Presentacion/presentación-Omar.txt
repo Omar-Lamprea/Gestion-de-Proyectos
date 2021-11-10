@@ -1,0 +1,13 @@
+Hola, soy Omar Lamprea de Armenia Quindío.
+
+Soy Desarrollador FrontEnd Jr y terngo habilidades en estas tecnologías:
+- HTML
+- CSS
+- Bootstrap
+- JavaScript
+- React
+- Svelte
+- Firebase
+- Gulp
+
+Rol: Product Owner

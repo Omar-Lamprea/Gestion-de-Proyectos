@@ -1,0 +1,5 @@
+
+
+Hola como estan, mi nombre es Gabriel Espinosa, me desempeño como Especialista en plataformas
+en una Outsourcing Tecnologica, tengos conocimientos básicos en lenguajes de programación como 
+Python, Javascript, HTML y tambien en librerias y framework enfocadas a las web.

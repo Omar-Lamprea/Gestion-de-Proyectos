@@ -1,6 +1,7 @@
 const Usuario = require('../model/usuarioModel')
 const jwt = require('jsonwebtoken')
 let aes256 = require('aes256');
+
 const key = 'CLAVEDIFICIL';
 
 /*
@@ -13,17 +14,19 @@ const key = 'CLAVEDIFICIL';
 */
 const singIn = async (request, response) => {
     try {
-        const usuario = await Usuario.findOne({ email: request.body?.email })
+        const usuario = await Usuario.findOne({ correo: request.body.email }).lean()
+        console.log('Login user:', !!usuario)
         if (!usuario) {
-            return response.status(401).json({ response: "Verique usuario y contrasena" })
+            return response.status(401).json({ response: "Verique usuario" })
         }
 
         const claveDesencriptada = aes256.decrypt(key, usuario.clave)
-        if (request.body?.clave != claveDesencriptada) {
+        if (request.body.clave !== claveDesencriptada) {
             return response.status(401).json({ response: "Verique usuario y contrasena" })
         }
+
         const token = jwt.sign({
-            rolesito: usuario.perfil
+            rolesito: usuario.rol
         }, key, { expiresIn: 60 * 60 * 2 })
 
         response.status(200).json({ jwt: token })

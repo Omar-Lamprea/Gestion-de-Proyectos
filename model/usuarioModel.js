@@ -10,7 +10,7 @@ const usuario = new Schema({
         unique: true,
         required: true
     },
-    perfil: {
+    rol: {
         type: String,
         required: true
     },
@@ -18,13 +18,14 @@ const usuario = new Schema({
         type: String,
         default: "Inactivo"
     },
-    email:{
+    correo:{
         type: String,
-        unique:true
+        unique:true,
+        required:true
     },
     clave: {
         type: String,
         required: true
     }
 })
-module.exports = model('usuarios', usuario,"usuarios")
+module.exports = model('usuarios', usuario, "Usuarios")

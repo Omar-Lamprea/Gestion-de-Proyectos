@@ -8,8 +8,8 @@ const typeDefs = gql`
         nombre: String
         identificacion: Int
         estado: String
-        email: String
-        perfil: String
+        correo: String
+        rol: String
     }
     type Proyecto{
         identificador: String
@@ -18,7 +18,7 @@ const typeDefs = gql`
         fechaTerminacion: Date
         lider: String
         nombre:String
-    }
+    }   
     type Query{
         usuarios: [Usuario]
         usuario(identificacion: Int): Usuario
@@ -29,7 +29,8 @@ const typeDefs = gql`
         nombre: String
         identificacion:Int
         clave: String
-        perfil: String
+        rol: String
+        correo: String
     }
     input ProjectInput{
         objetivosGenerales: String
@@ -42,7 +43,7 @@ const typeDefs = gql`
         createUser(user:UserInput):String
         createProject(project:ProjectInput):String
         activeUser(identificacion:Int):String
-        deleteUser(ident:Int):String
+        deleteUser(identificacion:Int):String
         deleteProject(nombreProyecto:String):String
         insertUserToProject(identificacion:Int,nombreProyecto:String):String
         autenticar(usuario:String, clave:String):String

@@ -6,7 +6,11 @@ const {
     createProject 
 } = require('./service/proyecto.service');
 
-const { buscarUsuarioPorIdentificacion } = require('./service/usuario.service')
+const { 
+    buscarUsuarioPorIdentificacion,
+    getUsuarios
+} = require('./service/usuario.service')
+
 const Project = require('./model/proyectoModel')
 const User = require('./model/usuarioModel')
 let aes256 = require('aes256');
@@ -14,37 +18,11 @@ const { isLider } = require('./middleware/authjwt');
 const jwt = require('jsonwebtoken')
 
 
-const listUsuarios = [
-    {
-        nombre: 'Ramon Castano',
-        identificacion: 123456789,
-        estado: 'activo',
-        clave: 'claveFacil',
-        email: 'ramon@gmail.com',
-        perfil: 'estudiante'
-    },
-    {
-        nombre: 'Ernesto',
-        identificacion: 98765,
-        estado: 'inactivo',
-        clave: 'ClaveDificil',
-        email: 'ernesto@gmail.com',
-        perfil: 'estudiante'
-    },
-    {
-        nombre: 'Daniel Saavedra',
-        identificacion: 123456789,
-        estado: 'activo',
-        email: 'daniel@gmail.com',
-        perfil: 'lider'
-    },
-]
-
 const key = 'CLAVEDIFICIL';
 
 const resolvers = {
     Query: {
-        usuarios: () => listUsuarios,
+        usuarios: getUsuarios,
         usuario: (parent, args, context, info) => buscarUsuarioPorIdentificacion(args.identificacion),
         proyectos: async (parent, args, context, info) => {
             return proyectos()
@@ -68,7 +46,7 @@ const resolvers = {
         },
         deleteUser: (parent, args, context, info) => {
             if (isLider(context.rol)) {
-                return User.deleteOne({ identificacion: args.ident })
+                return User.deleteOne({ identificacion: args.identificacion })
                     .then(u => "Usuario eliminado")
                     .catch(err => "Fallo la eliminacion");
             }

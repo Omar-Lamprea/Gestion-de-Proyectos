@@ -25,7 +25,7 @@ const addUserProject = async (identificacion, nombreProyecto) => {
 
 const createProject = (project) => {
     const nuevoProyecto = new Project(project);
-    nuevoProyecto.identificador = uuidv4()
+    // nuevoProyecto.identificador = uuidv4()
     return nuevoProyecto.save()
         .then(u => "Proyecto creado")
         .catch(err => console.log(err));
@@ -37,7 +37,10 @@ const deleteProject = (nombreProyecto) => {
         .catch(err => "Fallo la eliminacion");
 }
 
-const proyectos = async () => await Project.find({}).populate("integrantes")
+const getProjects = async () =>{
+    return await Project.find({})
+} 
+// .populate("integrantes")
 
 const getProject = async (nombre) => await Project.findOne({ nombre })
 
@@ -45,7 +48,7 @@ const getProject = async (nombre) => await Project.findOne({ nombre })
 module.exports = {
     addUserProject,
     getProject,
-    proyectos,
+    getProjects,
     deleteProject,
     createProject
 }

@@ -12,19 +12,15 @@ const typeDefs = gql`
         rol: String
     }
     type Proyecto{
-        identificador: String
+        nombre:String
         objetivosGenerales: String
+        objetivosEspecificos: String
         presupuesto: Int
         fechaTerminacion: Date
         lider: String
-        nombre:String
+        estado:String
     }   
-    type Query{
-        usuarios: [Usuario]
-        usuario(identificacion: Int): Usuario
-        proyectos:[Proyecto]
-        getProject(nombre:String):Proyecto
-    }
+
     input UserInput{
         nombre: String
         identificacion:Int
@@ -38,6 +34,12 @@ const typeDefs = gql`
         fechaTerminacion: Date
         lider: String
         nombre:String
+    }
+    type Query{
+        usuarios: [Usuario]
+        usuario(identificacion: Int): Usuario
+        proyectos:[Proyecto]
+        getProject(nombre:String):Proyecto
     }
     type Mutation{
         createUser(user:UserInput):String

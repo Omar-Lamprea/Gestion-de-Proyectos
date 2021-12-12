@@ -2,18 +2,13 @@ const { Schema, model } = require('mongoose')
 
 
 const project = new Schema({
-    identificador: {
-        type: String,
-        required: true,
-        unique: true
-    },
     nombre: {
         type: String,
         required: true,
         unique: true
     },
     objetivosGenerales: String,
-    objetivosEspecificos: [String],
+    objetivosEspecificos: String,
     presupuesto: Number,
     fecha_inicio: {
         type: Date,
@@ -35,4 +30,4 @@ const project = new Schema({
         timestamps: true
     }
 )
-module.exports = model('proyectos', project)
+module.exports = model('proyectos', project, "Proyectos")

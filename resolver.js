@@ -1,7 +1,7 @@
 const { 
     addUserProject,
     getProject,
-    proyectos,
+    getProjects,
     deleteProject,
     createProject 
 } = require('./service/proyecto.service');
@@ -24,9 +24,7 @@ const resolvers = {
     Query: {
         usuarios: getUsuarios,
         usuario: (parent, args, context, info) => buscarUsuarioPorIdentificacion(args.identificacion),
-        proyectos: async (parent, args, context, info) => {
-            return proyectos()
-        },
+        proyectos: getProjects,
         getProject: async (parent, args, context, info) => getProject(args.nombre),
     },
     Mutation: {
@@ -39,6 +37,7 @@ const resolvers = {
                 .then(u => "usuario creado")
                 .catch(err => console.log(err));
         },
+
         activeUser: (parent, args, context, info) => {
             return User.updateOne({ identificacion: args.identificacion }, { estado: "Activo" })
                 .then(u => "Usuario activo")
@@ -49,6 +48,8 @@ const resolvers = {
                 return User.deleteOne({ identificacion: args.identificacion })
                     .then(u => "Usuario eliminado")
                     .catch(err => "Fallo la eliminacion");
+            }else{
+                return "No puedes eliminar un usuario"
             }
         },
         deleteProject: (parent, args, context, info) => {
@@ -58,15 +59,7 @@ const resolvers = {
             //code smells... Recuerdan?
         },
         insertUserToProject: async (parent, args, context, info) => addUserProject(args.identificacion, args.nombreProyecto),
-        createUser: (parent, args, context, info) => {
-            const { clave } = args.user;
-            const nuevoUsuario = new User(args.user);
-            const encryptedPlainText = aes256.encrypt(key, clave);
-            nuevoUsuario.clave = encryptedPlainText
-            return nuevoUsuario.save()
-                .then(u => "usuario creado")
-                .catch(err => console.log(err));
-        },
+        
         createProject: (parent, args, context, info) => {
             if (isLider(context.rol)) {
                 createProject(args.project)

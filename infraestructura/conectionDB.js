@@ -9,7 +9,6 @@ const mongoose = require('mongoose')
 //conexión a db del profe:
 //const urlDB ='mongodb+srv://daniel:udea28@cluster0.hcpun.mongodb.net/proyectosInvestigacion?retryWrites=true&w=majority'
 
-
 mongoose.connect(urlDB);
 const mongoDB = mongoose.connection;
 mongoDB.on('open', _ =>{

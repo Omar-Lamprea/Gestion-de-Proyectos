@@ -1,4 +1,3 @@
-
 require('./infraestructura/conectionDB')
 const { validarToken, admin, estudiante } = require('./middleware/authjwt')
 const jwt = require('jsonwebtoken')
@@ -12,24 +11,26 @@ const { ApolloServer } = require('apollo-server-express')
 
 const key = 'CLAVEDIFICIL';
 
+const api = express();
 const iniciarServidor = async () => {
-    const api = express();
     const apollo = new ApolloServer(
         {
             typeDefs,
             resolvers,
-            context: (ctx) => {
-                
-                const token = ctx.req.headers.authorization;
-                try {
-                    const perfil = jwt.verify(token, key)
-                    if (perfil) {
-                        return {rol: perfil.rolesito}
+            context: ({ req }) => {
+                const token = req.headers.authorization;
+                if(token){
+                    try {
+                        const perfil = jwt.verify(token, key)
+                        if (perfil) {
+                            rol = perfil.rolesito
+                            return {rol}
+                        }
+                    } catch (error) {
+                        console.log(error)
                     }
-                } catch (error) {
-                    console.error(error)
+                    return {}
                 }
-                return ctx
             }
         });
     await apollo.start()
@@ -43,9 +44,15 @@ const iniciarServidor = async () => {
         response.json("Soy el dashboard")
     })
 
+    api.get("/healt-check", (req,resp)=>{
+        resp.json("ok")
+    })
+
     api.get('/api/dashboard/estudiante', [validarToken, estudiante], (request, response) => {
         response.json("Soy el dashboard")
     })
     api.listen('9092', () => console.log('Inicio server'))
 }
 iniciarServidor()
+
+module.exports = api

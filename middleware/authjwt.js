@@ -24,11 +24,9 @@ const admin = (request, response, next) => {
     }
     next();
 }
-
 const isLider = (rol) => {
     return rol === "Lider"
 }
-
 const isAdmin = (rol) => {
     return rol === "Admin"
 }
@@ -39,7 +37,6 @@ const estudiante = (request, response, next) => {
     }
     next();
 }
-
 module.exports = {
     validarToken,
     admin,

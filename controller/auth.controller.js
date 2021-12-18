@@ -1,7 +1,6 @@
 const Usuario = require('../model/usuarioModel')
 const jwt = require('jsonwebtoken')
 let aes256 = require('aes256');
-
 const key = 'CLAVEDIFICIL';
 
 /*
@@ -11,22 +10,20 @@ const key = 'CLAVEDIFICIL';
     400 -> Enviaste algo que no era o bad Request
     500 -> Se exploto el servidor
     200 -> Todo bien
-*/
-const singIn = async (request, response) => {
+    */
+const signIn = async (request, response) => {
     try {
-        const usuario = await Usuario.findOne({ correo: request.body.email }).lean()
-        console.log('Login user:', !!usuario)
+        const usuario = await Usuario.findOne({ email: request.body?.email })
         if (!usuario) {
-            return response.status(401).json({ response: "Verique usuario" })
-        }
-
-        const claveDesencriptada = aes256.decrypt(key, usuario.clave)
-        if (request.body.clave !== claveDesencriptada) {
             return response.status(401).json({ response: "Verique usuario y contrasena" })
         }
 
+        const claveDesencriptada = aes256.decrypt(key, usuario.clave)
+        if (request.body?.clave != claveDesencriptada) {
+            return response.status(401).json({ response: "Verique usuario y contrasena" })
+        }
         const token = jwt.sign({
-            rolesito: usuario.rol
+            rolesito: usuario.perfil
         }, key, { expiresIn: 60 * 60 * 2 })
 
         response.status(200).json({ jwt: token })
@@ -36,4 +33,4 @@ const singIn = async (request, response) => {
     }
 }
 
-module.exports = singIn;
+module.exports = signIn;

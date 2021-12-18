@@ -51,7 +51,7 @@ const iniciarServidor = async () => {
     api.get('/api/dashboard/estudiante', [validarToken, estudiante], (request, response) => {
         response.json("Soy el dashboard")
     })
-    api.listen('9092', () => console.log('Inicio server'))
+    api.listen(process.env.NODE_PORT || '9092', () => console.log('Inicio server'))
 }
 iniciarServidor()
 

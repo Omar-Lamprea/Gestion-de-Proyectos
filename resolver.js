@@ -73,7 +73,7 @@ const resolvers = {
                         status: 401
                     }
                 }
-                //AES256 es una libreria de criptografia para encriptar y desencriptar.
+
                 const claveDesencriptada = aes256.decrypt(key, usuario.clave)
                 if (args.clave != claveDesencriptada) {
                     return {
